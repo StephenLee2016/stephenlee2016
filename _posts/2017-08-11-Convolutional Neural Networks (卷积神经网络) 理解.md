@@ -7,15 +7,15 @@ author:     Stephen
 header-img: img/home-bg-art.jpg
 tags:
     - CNN
-    - Text
+    - Text Classification
     - 卷积神经网络
     - 文本分类
+    - Tensorflow
 ---
 
 # CNN 实现文本分类    
 
 ---
-
 
 ## 1、什么是CNN？
 
@@ -162,7 +162,6 @@ Pooling大致的作用就是如此，至于更详细的解释，老办法[点这
 所有的代码都是在如下环境完成：
 
 > python 3.5
-
 > tensorflow 1.0.0
 
 首先看一下数据集的格式：
@@ -172,9 +171,7 @@ Pooling大致的作用就是如此，至于更详细的解释，老办法[点这
 在网上随便找的1000条文本，里面包含了三个主题，对应着：
 
 > What
-
 > When
-
 > Who
 
 中文文本的处理方式略微有一些差别，因为需要进行分词。
@@ -240,9 +237,7 @@ if __name__=='__main__':
 数据集划分完成后，产生下面的三个文件：
 
 > qa_data.what
-
 > qa_data.when
-
 > qa_data.who
 
 有了上面不同主题的文件，接下来对文件进行分词和添加标签等操作。
@@ -479,11 +474,8 @@ class TextCNN(object):
 模型的构建主要有以下的几个步骤：
 
 > 1、构建embedding layer
-
 > 2、构建convolutional layer
-
 > 3、构建max pooling layer
-
 > 4、选择一个合适的优化器
 
 所有准备工作完成之后就可以开始模型的训练。
@@ -659,6 +651,20 @@ with tf.Graph().as_default():
                 path = saver.save(sess, checkpoint_prefix, global_step=current_step)
                 print("Saved model checkpoint to {}\n".format(path))
 ```
+
+这里的数据集很小，很快就可以跑完。程序运行的一些输出如下：
+
+![model_parameters](http://e.hiphotos.baidu.com/image/pic/item/574e9258d109b3de80095186c6bf6c81810a4cad.jpg)
+
+可以看到一些设置的参数，这些参数都是比较随机进行设置的，可以针对模型效果进行不断地优化。
+
+![start_training](http://d.hiphotos.baidu.com/image/pic/item/1e30e924b899a901df92eed817950a7b0308f5bd.jpg)
+
+可以看到，开始进行训练时，每个 batch 的 accuracy 才有 0.2+， 但是很快就上升到了 0.7+。
+
+![end_training](http://a.hiphotos.baidu.com/image/pic/item/6c224f4a20a44623b98e118c9222720e0df3d79c.jpg)
+
+最终模型的 accuracy 都在0.9+， 很多batch都可以达到1.0.
 
 项目完整的代码可以[点此下载][5]，大家有兴趣可以下载下来跑一下试试。
 
